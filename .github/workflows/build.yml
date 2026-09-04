@@ -11,5 +11,8 @@ jobs:
       - name: Checkout du code
         uses: actions/checkout@v4
 
+      - name: Configurer CMake
+        run: cmake -B build
+
       - name: Compiler le projet
-        run: gcc -o cpu_monitor src/cpu_monitor.c
+        run: cmake --build build
