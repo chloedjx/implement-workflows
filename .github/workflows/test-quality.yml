@@ -1,0 +1,36 @@
+name: Test & Quality
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Configurer CMake
+        run: cmake -B build
+
+      - name: Compiler
+        run: cmake --build build
+
+      - name: Lancer les tests
+        run: ctest --test-dir build --output-on-failure
+
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Installer clang-tidy
+        run: sudo apt-get update && sudo apt-get install -y clang-tidy
+
+      - name: Configurer CMake (genere compile_commands.json)
+        run: cmake -B build
+
+      - name: Lancer clang-tidy
+        run: clang-tidy -p build src/*.c
