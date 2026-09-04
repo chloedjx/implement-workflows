@@ -1,1 +1,15 @@
+name: Build
 
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Compiler le projet
+        run: gcc -o cpu_monitor src/cpu_monitor.c
